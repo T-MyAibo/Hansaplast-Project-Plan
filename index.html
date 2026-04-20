@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project Aegis — Hansaplast</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-50: #E6F1FB; --blue-100: #B5D4F4; --blue-200: #85B7EB;
+    --blue-400: #378ADD; --blue-600: #185FA5; --blue-800: #0C447C; --blue-900: #042C53;
+    --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
+    --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041; --teal-900: #04342C;
+    --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27;
+    --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806; --amber-900: #412402;
+    --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B;
+    --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13;
+    --purple-50: #EEEDFE; --purple-100: #CECBF6; --purple-200: #AFA9EC;
+    --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489;
+    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9;
+    --gray-400: #888780; --gray-600: #5F5E5A; --gray-800: #444441; --gray-900: #2C2C2A;
+    --text: #1a1a1a; --text-2: #5a5a5a; --text-3: #999;
+    --bg: #ffffff; --bg-2: #f7f6f3; --bg-3: #f0efe9;
+    --border: rgba(0,0,0,0.1); --border-2: rgba(0,0,0,0.18);
+    --radius: 10px; --radius-lg: 14px;
+    --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg-3);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.2rem;
+  }
+  .tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+    padding: 4px 10px; border-radius: 20px;
+    border: 1px solid var(--border); background: var(--bg-2);
+    color: var(--text-2); text-transform: uppercase;
+  }
+  .tag.blue { background: var(--blue-50); border-color: var(--blue-200); color: var(--blue-800); }
+  .tag.teal { background: var(--teal-50); border-color: var(--teal-200); color: var(--teal-800); }
+  .tag.amber { background: var(--amber-50); border-color: var(--amber-200); color: var(--amber-800); }
+  .hero h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 600; color: var(--text); line-height: 1.2; }
+  .hero-sub { font-size: 15px; color: var(--text-2); margin-top: 6px; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 24px; margin-top: 1.5rem;
+    padding-top: 1.2rem; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-2);
+  }
+  .hero-meta span strong { color: var(--text); font-weight: 500; }
+
+  /* STATS */
+  .stats-wrap { max-width: 960px; margin: 0 auto; padding: 1.5rem 2rem; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
+  .stat-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 600; color: var(--text); }
+  .stat-lbl { font-size: 11px; color: var(--text-2); margin-top: 4px; letter-spacing: 0.02em; }
+
+  /* TIMELINE */
+  .section { max-width: 960px; margin: 0 auto; padding: 0 2rem 1.5rem; }
+  .section-title {
+    font-size: 12px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 14px;
+  }
+  .sprint-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .week-box {
+    border-radius: var(--radius);
+    padding: 10px 6px 8px;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  .week-box.s1 { background: var(--blue-50); border-color: var(--blue-200); }
+  .week-box.s2 { background: var(--teal-50); border-color: var(--teal-200); }
+  .week-box.s3 { background: var(--amber-50); border-color: var(--amber-200); }
+  .week-label { font-size: 10px; color: var(--text-3); margin-bottom: 4px; font-family: var(--mono); }
+  .week-num { font-size: 15px; font-weight: 600; }
+  .week-box.s1 .week-num { color: var(--blue-800); }
+  .week-box.s2 .week-num { color: var(--teal-800); }
+  .week-box.s3 .week-num { color: var(--amber-800); }
+
+  .phase-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px; }
+  .phase-box {
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .phase-box.s1 { background: var(--blue-100); color: var(--blue-900); }
+  .phase-box.s2 { background: var(--teal-100); color: var(--teal-900); }
+  .phase-box.s3 { background: var(--amber-100); color: var(--amber-900); }
+
+  /* EPICS */
+  .epics-section { max-width: 960px; margin: 0 auto; padding: 0 2rem 2rem; }
+  .epic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .epic-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .epic-card:hover { border-color: var(--border-2); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .epic-card.open { border-color: var(--blue-400); }
+  .epic-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .epic-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  .epic-info { flex: 1; }
+  .epic-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .epic-sprint { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .epic-badge {
+    font-size: 11px; font-weight: 500;
+    background: var(--bg-2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 3px 9px;
+    color: var(--text-2); white-space: nowrap; flex-shrink: 0;
+    align-self: flex-start;
+  }
+  .epic-expand { font-size: 18px; color: var(--text-3); transition: transform 0.2s; flex-shrink: 0; }
+  .epic-card.open .epic-expand { transform: rotate(90deg); }
+  .epic-details {
+    display: none; margin-top: 14px;
+    border-top: 1px solid var(--border); padding-top: 12px;
+  }
+  .epic-card.open .epic-details { display: block; }
+  .story {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 5px 0; font-size: 13px; color: var(--text-2); line-height: 1.4;
+  }
+  .story-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue-400); flex-shrink: 0; margin-top: 5px;
+  }
+
+  /* FOOTER */
+  .footer {
+    max-width: 960px; margin: 2rem auto 0;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-size: 12px; color: var(--text-3);
+  }
+  .footer strong { color: var(--text-2); font-weight: 500; }
+
+  .divider { max-width: 960px; margin: 0 auto; height: 1px; background: var(--border); }
+  .spacer { height: 1.5rem; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.2rem 1.5rem; }
+    .stats-wrap, .section, .epics-section { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .phase-row { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="tag blue">Client: Hansaplast</span>
+    <span class="tag teal">Prepared by: MyAibo</span>
+    <span class="tag amber">6-Week Sprint</span>
+  </div>
+  <h1>Project Aegis: Healing Heroes Ecosystem</h1>
+  <div class="hero-sub">6-Week Development Roadmap &nbsp;·&nbsp; 3 Sprints × 2 Weeks</div>
+  <div class="hero-meta">
+    <span><strong>70</strong> user stories</span>
+    <span><strong>12</strong> epics</span>
+    <span><strong>8</strong> wound types</span>
+    <span><strong>6</strong> themes</span>
+    <span><strong>144</strong> story combos (3 variants)</span>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="stats-wrap">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num">70</div><div class="stat-lbl">User Stories</div></div>
+    <div class="stat-card"><div class="stat-num">12</div><div class="stat-lbl">Epics</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-lbl">Sprints</div></div>
+    <div class="stat-card"><div class="stat-num">6</div><div class="stat-lbl">Weeks</div></div>
+    <div class="stat-card"><div class="stat-num">8</div><div class="stat-lbl">Wound Types</div></div>
+    <div class="stat-card"><div class="stat-num">144</div><div class="stat-lbl">Story Combos</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="spacer"></div>
+
+<div class="section">
+  <div class="section-title">Sprint Timeline</div>
+  <div class="sprint-grid">
+    <div class="week-box s1"><div class="week-label">Sprint 1</div><div class="week-num">W1</div></div>
+    <div class="week-box s1"><div class="week-label">&nbsp;</div><div class="week-num">W2</div></div>
+    <div class="week-box s2"><div class="week-label">Sprint 2</div><div class="week-num">W3</div></div>
+    <div class="week-box s2"><div class="week-label">&nbsp;</div><div class="week-num">W4</div></div>
+    <div class="week-box s3"><div class="week-label">Sprint 3</div><div class="week-num">W5</div></div>
+    <div class="week-box s3"><div class="week-label">&nbsp;</div><div class="week-num">W6</div></div>
+  </div>
+  <div class="phase-row" style="margin-top:8px;">
+    <div class="phase-box s1">Auth &amp; Onboarding · Dashboard Core</div>
+    <div class="phase-box s2">Wound Engine · Narrative &amp; Content</div>
+    <div class="phase-box s3">Gamification · Compliance &amp; Ship</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="spacer"></div>
+
+<div class="epics-section">
+  <div class="section-title">Epics — click any card to expand</div>
+  <div class="epic-grid" id="epicGrid"></div>
+</div>
+
+<div class="footer">
+  <span>Client: <strong>Hansaplast</strong> &nbsp;·&nbsp; Prepared by: <strong>MyAibo</strong></span>
+  <span>Project Aegis · Healing Heroes Ecosystem · 6-Week Roadmap</span>
+</div>
+
+<script>
+const epics = [
+  {
+    icon: "🔐", color: "#E6F1FB",
+    title: "Auth & Onboarding",
+    sprint: "Sprint 1 · W1–W2",
+    stories: 8,
+    details: [
+      "User registration with email / social login",
+      "Onboarding flow: age, wound history, caregiver mode",
+      "Profile creation and avatar selection",
+      "Parental consent gate for under-13 users",
+      "Account settings and notification preferences",
+      "Password reset and 2FA",
+      "Accessibility onboarding (font size, contrast)",
+      "Offline first-run experience"
+    ]
+  },
+  {
+    icon: "🏠", color: "#E6F1FB",
+    title: "Dashboard Core",
+    sprint: "Sprint 1 · W1–W2",
+    stories: 7,
+    details: [
+      "Personalised home feed with wound tracker widget",
+      "Daily check-in prompt card",
+      "Healing progress ring / streak indicator",
+      "Quick-log button for new wound event",
+      "Notification badge and tray",
+      "Bottom navigation with five tabs",
+      "Dark mode toggle"
+    ]
+  },
+  {
+    icon: "🩹", color: "#E1F5EE",
+    title: "Wound Engine",
+    sprint: "Sprint 2 · W3–W4",
+    stories: 10,
+    details: [
+      "8 wound-type classification (cut, scrape, blister, burn, bruise, puncture, bite, post-surgical)",
+      "Photo capture and basic severity triage",
+      "AI-assisted wound-type suggestion",
+      "Step-by-step treatment guide per wound type",
+      "Product recommendation layer (Hansaplast SKU mapping)",
+      "Healing log with date stamps",
+      "Flag for medical attention thresholds",
+      "Wound comparison (before / after photos)",
+      "Share wound log with healthcare provider",
+      "Export wound history as PDF"
+    ]
+  },
+  {
+    icon: "📖", color: "#E1F5EE",
+    title: "Narrative & Content",
+    sprint: "Sprint 2 · W3–W4",
+    stories: 9,
+    details: [
+      "Healing Heroes story universe setup",
+      "6 hero characters mapped to wound themes",
+      "Story chapter unlock on healing milestones",
+      "Micro-content: wound-care tips as story panels",
+      "Animated story sequences (Lottie)",
+      "Kid-mode reading level toggle",
+      "Parental reading companion mode",
+      "Content CMS integration for editorial team",
+      "Localisation scaffold (EN + 2 regional languages)"
+    ]
+  },
+  {
+    icon: "🏆", color: "#FAEEDA",
+    title: "Gamification",
+    sprint: "Sprint 3 · W5–W6",
+    stories: 8,
+    details: [
+      "XP points for each healing log entry",
+      "Badge system (12 badges across 6 themes)",
+      "Leaderboard (opt-in, age-gated)",
+      "Daily challenge card",
+      "Streak rewards (3, 7, 14, 30 day)",
+      "Hero rank progression (5 tiers)",
+      "Shareable achievement card for social",
+      "Surprise delight events (seasonal)"
+    ]
+  },
+  {
+    icon: "📊", color: "#FAEEDA",
+    title: "Dashboard Complete",
+    sprint: "Sprint 3 · W5–W6",
+    stories: 7,
+    details: [
+      "Insights tab: healing trends chart",
+      "Product usage history and re-order shortcut",
+      "Family member profiles (up to 4)",
+      "Health diary full history view",
+      "Search across wound logs and stories",
+      "Recommendations engine v1",
+      "Offline sync and conflict resolution"
+    ]
+  },
+  {
+    icon: "🔔", color: "#FAEEDA",
+    title: "Notifications",
+    sprint: "Sprint 3 · W5–W6",
+    stories: 6,
+    details: [
+      "Push notification framework (FCM / APNs)",
+      "Daily healing reminder (configurable)",
+      "Streak at-risk alert",
+      "New story chapter available",
+      "Product low-stock reminder",
+      "In-app notification centre"
+    ]
+  },
+  {
+    icon: "✅", color: "#FAEEDA",
+    title: "Compliance & Ship",
+    sprint: "Sprint 3 · W5–W6",
+    stories: 7,
+    details: [
+      "GDPR / DPDPA data handling audit",
+      "COPPA compliance review for under-13 flows",
+      "Medical disclaimer and ToS screens",
+      "App Store and Play Store asset preparation",
+      "Performance profiling and crash reporting setup",
+      "Penetration test (basic)",
+      "Staged rollout configuration (10% → 100%)"
+    ]
+  },
+  {
+    icon: "🧪", color: "#EEEDFE",
+    title: "QA & Testing",
+    sprint: "All sprints",
+    stories: 4,
+    details: [
+      "Unit test coverage ≥ 80% for core modules",
+      "Integration tests for wound engine flows",
+      "Accessibility audit (WCAG 2.1 AA)",
+      "Device matrix testing (iOS 16+ / Android 11+)"
+    ]
+  },
+  {
+    icon: "⚙️", color: "#EEEDFE",
+    title: "Infrastructure & DevOps",
+    sprint: "All sprints",
+    stories: 4,
+    details: [
+      "CI/CD pipeline (GitHub Actions)",
+      "Staging and production environment setup",
+      "Analytics event schema and Mixpanel integration",
+      "Error monitoring (Sentry)"
+    ]
+  }
+];
+
+const grid = document.getElementById('epicGrid');
+
+epics.forEach(epic => {
+  const card = document.createElement('div');
+  card.className = 'epic-card';
+  card.innerHTML = `
+    <div class="epic-head">
+      <div class="epic-icon" style="background:${epic.color}">${epic.icon}</div>
+      <div class="epic-info">
+        <div class="epic-name">${epic.title}</div>
+        <div class="epic-sprint">${epic.sprint}</div>
+      </div>
+      <span class="epic-badge">${epic.stories} stories</span>
+      <span class="epic-expand">›</span>
+    </div>
+    <div class="epic-details">
+      ${epic.details.map(d => `<div class="story"><span class="story-dot"></span><span>${d}</span></div>`).join('')}
+    </div>
+  `;
+  card.addEventListener('click', () => card.classList.toggle('open'));
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
